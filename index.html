@@ -14,9 +14,16 @@
             color: #ffffff;
             min-height: 100vh;
         }
-        .container { max-width: 480px; margin: 0 auto; background: #000; min-height: 100vh; }
+        .container { 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background: #000; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
         
-        /* Действует — убрал красный цвет полностью */
+        /* Действует — убрал красный цвет и серую линию полностью */
         .countdown {
             text-align: center;
             font-size: 18px;
@@ -24,7 +31,7 @@
             padding: 14px 0;
             background: #000000;
             color: #ffffff;
-            border-bottom: 1px solid #222222;
+            /* УБРАЛ border-bottom — теперь нет никакой серой линии */
         }
         .countdown span { 
             color: #ffffff; 
@@ -33,7 +40,7 @@
 
         .tabs {
             display: flex;
-            background: #000000; /* сделал полностью чёрный фон, как у остальных блоков */
+            background: #000000;
             border-bottom: 1px solid #222222;
         }
         .tab {
@@ -66,16 +73,10 @@
             font-weight: 600; 
         }
 
-        /* Точные SVG-иконки для табов (без стикеров/эмодзи) */
-        .tab .icon svg {
-            width: 28px;
-            height: 28px;
+        .content { 
+            padding: 0 16px; 
+            flex: 1;
         }
-        .ticket-icon svg {
-            color: #ff3b3b !important; /* красная кнопка "1" (документ) — 1 в 1 как на фото */
-        }
-
-        .content { padding: 0 16px; flex: 1; }
         .section {
             display: flex;
             align-items: center;
@@ -84,7 +85,13 @@
             border-bottom: 1px solid #222222;
         }
         .section:last-child { border-bottom: none; }
-        .icon { width: 32px; flex-shrink: 0; }
+        .icon { 
+            width: 32px; 
+            flex-shrink: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .label {
             font-size: 14px;
             color: #aaaaaa;
@@ -95,7 +102,29 @@
             font-weight: 500;
             color: #ffffff;
         }
-        .plate { font-size: 18px; font-weight: 600; margin-top: 2px; }
+        .plate { 
+            font-size: 18px; 
+            font-weight: 600; 
+            margin-top: 2px; 
+        }
+
+        /* Иконки — 1 в 1 как на твоём новом скрине */
+        .carrier-icon svg,
+        .bus-icon svg,
+        .ruble-icon svg,
+        .calendar-icon svg,
+        .clock-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: #ffffff;
+            stroke-width: 2;
+            fill: none;
+        }
+        .ruble-icon svg text {
+            fill: #ffffff;
+            stroke: none;
+        }
+
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
@@ -104,15 +133,17 @@
             border-radius: 12px;
             padding: 12px;
         }
+
+        /* Кнопка ЗАКРЫТЬ — цвет и отступы 1 в 1 как на скрине */
         .red-btn {
-            background: #ff3b3b;
+            background: #ff3b3b;           /* точно тот же красный, что и у всех красных элементов */
             color: white;
             border: none;
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
             border-radius: 12px;
-            margin: 20px 16px;
+            margin: 40px 16px 30px 16px;   /* большой отступ сверху — кнопка далеко внизу */
             width: calc(100% - 32px);
         }
         .hidden { display: none !important; }
@@ -123,7 +154,6 @@
         <div class="countdown">Действует: <span id="seconds">9</span> сек.</div>
         
         <div class="tabs">
-            <!-- Кнопка 1 (документ) — красная 1 в 1, без стикеров -->
             <div class="tab active" id="tab-ticket">
                 <span class="icon ticket-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,8 +165,6 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-            
-            <!-- Кнопка Контроль — серый человек, чёрный фон -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -151,14 +179,14 @@
         <div id="content-ticket" class="content">
             <!-- Перевозчик — иконка 1 в 1 (человек в фуражке) -->
             <div class="section">
-                <div class="icon">
+                <div class="icon carrier-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <!-- Фуражка -->
                         <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
                         <!-- Голова -->
-                        <circle cx="12" cy="12.5" r="4"/>
-                        <!-- Тело -->
-                        <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <circle cx="12" cy="12.5" r="3.8"/>
+                        <!-- Тело + плечи -->
+                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -169,7 +197,7 @@
 
             <!-- Автобус — иконка 1 в 1 -->
             <div class="section">
-                <div class="icon">
+                <div class="icon bus-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="8" width="18" height="10" rx="2" ry="2"/>
                         <path d="M6 18v2"/>
@@ -183,11 +211,11 @@
                 </div>
             </div>
 
-            <!-- Стоимость — иконка ₽ 1 в 1 -->
+            <!-- Стоимость — ₽ 1 в 1 -->
             <div class="section">
-                <div class="icon">
+                <div class="icon ruble-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <text x="12" y="18.5" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" fill="#ffffff" stroke="none" font-family="'Roboto', sans-serif">₽</text>
+                        <text x="12" y="19" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" font-family="'Roboto', sans-serif">₽</text>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -196,9 +224,9 @@
                 </div>
             </div>
 
-            <!-- Дата покупки — иконка 1 в 1 -->
+            <!-- Дата покупки — календарь 1 в 1 -->
             <div class="section">
-                <div class="icon">
+                <div class="icon calendar-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                         <path d="M16 2v4"/>
@@ -212,13 +240,14 @@
                 </div>
             </div>
 
-            <!-- Время покупки — иконка 1 в 1 + стрелочка часов в нужном месте (как на фото) -->
+            <!-- Время покупки — часы 1 в 1 со стрелочкой в правильном положении -->
             <div class="section">
-                <div class="icon">
+                <div class="icon clock-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
-                        <!-- Стрелочка часов поставлена точно как на скрине (20:35 позиция) -->
-                        <path d="M12 6v6l3.5 2"/>
+                        <!-- Стрелки часов точно как на скрине (20:35) -->
+                        <path d="M12 6v6.5"/>
+                        <path d="M12 12.5 L15.5 15"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -244,7 +273,6 @@
         const TelegramWebApp = window.Telegram.WebApp;
         
         function fillData() {
-            // Данные под первое фото (можно менять через параметры)
             document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
             
             let addr = (urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный').replace('60, ', '');
@@ -264,7 +292,7 @@
         }
 
         function startCountdown() {
-            let seconds = 9; // как на первом фото
+            let seconds = 9;
             const el = document.getElementById('seconds');
             const timer = setInterval(() => {
                 seconds--;
