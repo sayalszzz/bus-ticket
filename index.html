@@ -1,254 +1,223 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Городской транспорт</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Roboto', system-ui, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-        }
-        .container { max-width: 480px; margin: 0 auto; background: #000; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Билет</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-        /* Таймер */
-        .countdown {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 500;
-            padding: 14px 0;
-            background: #000000;
-            color: #ffffff;
-            border-bottom: 1px solid #222;
-        }
-        .countdown span { color: #ff3b3b; font-weight: 700; }
+<style>
+body {
+    margin:0;
+    background:#000;
+    color:#fff;
+    font-family: Arial;
+}
 
-        /* Табы */
-        .tabs {
-            display: flex;
-            background: #111111;
-            border-bottom: 1px solid #222222;
-        }
-        .tab {
-            flex: 1;
-            padding: 14px 0;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #aaaaaa;
-        }
-        .tab.active {
-            color: #ffffff;
-            position: relative;
-        }
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 20%;
-            right: 20%;
-            height: 3px;
-            background: #ff3b3b;
-        }
-        .tab-number { color: #ff3b3b; font-weight: 600; }
+.container {
+    max-width:480px;
+    margin:auto;
+}
 
-        /* Контент */
-        .content {
-            padding: 0 16px;
-            flex: 1;
-        }
-        .section {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid #222222;
-        }
-        .section:last-child { border-bottom: none; }
-        .icon { font-size: 28px; width: 32px; flex-shrink: 0; }
-        .label {
-            font-size: 14px;
-            color: #aaaaaa;
-            margin-bottom: 2px;
-        }
-        .value, .plate {
-            font-size: 17px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-        .plate { font-size: 18px; font-weight: 600; margin-top: 2px; }
+/* Таймер */
+.countdown {
+    text-align:center;
+    padding:14px;
+    border-bottom:1px solid #111;
+}
 
-        /* QR */
-        .qr-screen { text-align: center; padding: 40px 20px 20px; }
-        #qr-code {
-            width: 260px;
-            height: 260px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 20px rgba(255,59,59,0.2);
-        }
+.countdown span {
+    color:#ff3b3b;
+    font-weight:bold;
+}
 
-        .red-btn {
-            background: #ff3b3b;
-            color: white;
-            border: none;
-            font-size: 18px;
-            font-weight: 700;
-            padding: 16px;
-            border-radius: 12px;
-            margin: 20px 16px;
-            width: calc(100% - 32px);
-        }
-        .hidden { display: none !important; }
-    </style>
+/* Вкладки */
+.tabs {
+    display:flex;
+}
+
+.tab {
+    flex:1;
+    text-align:center;
+    padding:14px;
+    color:#888;
+    position:relative;
+}
+
+.tab.active {
+    color:#fff;
+}
+
+.tab.active::after {
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:20%;
+    right:20%;
+    height:3px;
+    background:#ff3b3b;
+}
+
+/* Контент */
+.section {
+    display:flex;
+    gap:12px;
+    padding:18px;
+    border-bottom:1px solid #1a1a1a;
+}
+
+.label {
+    color:#888;
+    font-size:13px;
+}
+
+.value {
+    font-size:16px;
+}
+
+.plate {
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* QR */
+.qr {
+    text-align:center;
+    padding:30px;
+}
+
+#qr {
+    width:240px;
+}
+
+/* Кнопка */
+.btn {
+    margin:20px;
+    background:#ff3b3b;
+    padding:16px;
+    text-align:center;
+    border-radius:12px;
+    font-weight:bold;
+}
+.hidden {display:none;}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
+<div class="container">
 
-        <div class="tabs">
-            <div class="tab active" id="tab-ticket">
-                <span class="icon">📄</span>
-                <span id="control-number" class="tab-number"></span>
-            </div>
-            <div class="tab" id="tab-control">
-                <span class="icon">👤</span>
-                Контроль
-            </div>
-        </div>
+<div class="countdown">
+Действует: <span id="sec">15</span> сек.
+</div>
 
-        <div id="content-ticket" class="content">
-            <div class="section">
-                <div class="icon">👮</div>
-                <div style="flex:1">
-                    <div class="label">Перевозчик</div>
-                    <div class="value" id="carrier"></div>
-                </div>
-            </div>
+<div class="tabs">
+<div class="tab active" id="t1">
+<span id="ticket_id"></span>
+</div>
+<div class="tab" id="t2">Контроль</div>
+</div>
 
-            <div class="section">
-                <div class="icon">🚌</div>
-                <div style="flex:1">
-                    <div id="address" class="value"></div>
-                    <div id="plate" class="plate"></div>
-                </div>
-            </div>
+<div id="c1">
 
-            <div class="section">
-                <div class="icon">₽</div>
-                <div style="flex:1">
-                    <div class="label">Стоимость</div>
-                    <div id="cost" class="value"></div>
-                </div>
-            </div>
+<div class="section">
+<div>
+<div class="label">Перевозчик</div>
+<div id="carrier" class="value"></div>
+</div>
+</div>
 
-            <div class="section">
-                <div class="icon">📅</div>
-                <div style="flex:1">
-                    <div class="label">Дата покупки</div>
-                    <div id="purchase_date" class="value"></div>
-                </div>
-            </div>
+<div class="section">
+<div>
+<div id="address" class="value"></div>
+<div id="plate" class="plate"></div>
+</div>
+</div>
 
-            <div class="section">
-                <div class="icon">🕒</div>
-                <div style="flex:1">
-                    <div class="label">Время покупки</div>
-                    <div id="purchase_time" class="value"></div>
-                </div>
-            </div>
-        </div>
+<div class="section">
+<div>
+<div class="label">Стоимость</div>
+<div id="cost" class="value"></div>
+</div>
+</div>
 
-        <div id="content-control" class="content hidden">
-            <div class="qr-screen">
-                <p>Предъявите QR-код контролёру</p>
-                <img id="qr-code" src="" alt="QR">
-                <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
-            </div>
-        </div>
+<div class="section">
+<div>
+<div class="label">Дата покупки</div>
+<div id="date" class="value"></div>
+</div>
+</div>
 
-        <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
-    </div>
+<div class="section">
+<div>
+<div class="label">Время покупки</div>
+<div id="time" class="value"></div>
+</div>
+</div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const TelegramWebApp = window.Telegram.WebApp;
+</div>
 
-        function fillData() {
-            document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
-            let addr = urlParams.get('address') || '';
-            addr = addr.replace('60, ', '');           // убираем "60," как на скрине
-            document.getElementById('address').textContent = addr;
-            document.getElementById('plate').textContent = urlParams.get('plate') || '';
-            const count = urlParams.get('count') || '3';
-            const price = urlParams.get('total_price') || '144.00';
-            document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
-            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '';
-            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '';
-            const ticketId = urlParams.get('ticket_id') || '';
-            document.getElementById('control-number').textContent = ticketId;
-            document.getElementById('qr-ticket-id').textContent = ticketId;
-        }
+<div id="c2" class="hidden">
+<div class="qr">
+<p>Покажите контролёру</p>
+<img id="qr">
+</div>
+</div>
 
-        // Таймер 15→0 при каждом открытии
-        function startCountdown() {
-            let seconds = 15;
-            const el = document.getElementById('seconds');
-            const timer = setInterval(() => {
-                seconds--;
-                el.textContent = seconds;
-                if (seconds <= 0) {
-                    clearInterval(timer);
-                    el.textContent = '0';
-                }
-            }, 1000);
-        }
+<div class="btn" onclick="Telegram.WebApp.close()">
+ЗАКРЫТЬ
+</div>
 
-        function generateQR() {
-            const ticketId = urlParams.get('ticket_id') || '';
-            const data = ticketId + '|' + urlParams.get('plate');
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
-            document.getElementById('qr-code').src = url;
-        }
+</div>
 
-        function initTabs() {
-            const t1 = document.getElementById('tab-ticket');
-            const t2 = document.getElementById('tab-control');
-            const c1 = document.getElementById('content-ticket');
-            const c2 = document.getElementById('content-control');
+<script>
+const p = new URLSearchParams(location.search);
 
-            t1.addEventListener('click', () => {
-                t1.classList.add('active'); t2.classList.remove('active');
-                c1.classList.remove('hidden'); c2.classList.add('hidden');
-            });
-            t2.addEventListener('click', () => {
-                t2.classList.add('active'); t1.classList.remove('active');
-                c2.classList.remove('hidden'); c1.classList.add('hidden');
-                generateQR();
-            });
-        }
+// данные
+const carrier = p.get("carrier") || "";
+const address = p.get("address") || "";
+const plate = p.get("plate") || "";
+const price = p.get("total_price") || "0";
+const count = p.get("count") || "1";
+const id = p.get("ticket_id") || "";
 
-        function init() {
-            TelegramWebApp.ready();
-            TelegramWebApp.expand();
-            TelegramWebApp.setHeaderColor('#000000');
-            TelegramWebApp.setBackgroundColor('#000000');
-            fillData();
-            startCountdown();
-            initTabs();
-        }
+document.getElementById("carrier").innerText = carrier;
+document.getElementById("address").innerText = address.replace("60, ", "");
+document.getElementById("plate").innerText = plate;
+document.getElementById("cost").innerHTML = `${count} шт., Полный, <b>${price} ₽</b>`;
+document.getElementById("date").innerText = p.get("purchase_date") || "";
+document.getElementById("time").innerText = p.get("purchase_time") || "";
+document.getElementById("ticket_id").innerText = id;
 
-        window.onload = init;
-    </script>
+// таймер
+let s = 15;
+setInterval(()=>{
+    s--;
+    document.getElementById("sec").innerText = s;
+},1000);
+
+// QR
+document.getElementById("qr").src =
+`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${id}|${plate}`;
+
+// вкладки
+t1.onclick = ()=>{
+    t1.classList.add("active");
+    t2.classList.remove("active");
+    c1.classList.remove("hidden");
+    c2.classList.add("hidden");
+}
+
+t2.onclick = ()=>{
+    t2.classList.add("active");
+    t1.classList.remove("active");
+    c2.classList.remove("hidden");
+    c1.classList.add("hidden");
+}
+
+// Telegram init
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
+</script>
+
 </body>
 </html>
