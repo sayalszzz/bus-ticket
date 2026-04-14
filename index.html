@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Билет — Городской транспорт</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f1b3a, #1e3a8a);
+            color: white;
+            margin: 0;
+            padding: 15px;
+            min-height: 100vh;
+        }
+        .ticket {
+            background: white;
+            color: #1f2937;
+            border-radius: 20px;
+            padding: 25px 20px;
+            max-width: 420px;
+            margin: 20px auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: left;
+        }
+        .header {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 15px;
+        }
+        .line {
+            margin: 14px 0;
+            font-size: 17px;
+        }
+        .label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+        .value {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #dc2626;
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: #fef2f2;
+            border-radius: 12px;
+        }
+        .ticket-id {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0;
+            color: #374151;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="header">Билет на автобус</div>
+        
+        <div class="line"><span class="label">Перевозчик:</span> <span class="value" id="carrier"></span></div>
+        <div class="line"><span class="label">Маршрут:</span> <span class="value" id="route"></span></div>
+        <div class="line"><span class="label">Направление:</span> <span class="value" id="address"></span></div>
+        <div class="line"><span class="label">Автобус:</span> <span class="value" id="plate"></span></div>
+        
+        <div class="price" id="price"></div>
+        
+        <div class="ticket-id">
+            Билет № <span id="ticket_id" style="font-weight: bold;"></span>
+        </div>
+        
+        <div class="line" style="text-align: center;">
+            Действует до <span id="valid_until" class="value"></span>
+        </div>
+
+        <div class="footer">
+            🎟️ Предъявите контролёру<br>
+            <small>Красноярск • 2026</small>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ИП Цугленок М М';
+        document.getElementById('route').textContent = urlParams.get('route') || 'Маршрут №60';
+        document.getElementById('address').textContent = urlParams.get('address') || '';
+        document.getElementById('plate').textContent = urlParams.get('plate') || '';
+        document.getElementById('price').textContent = (urlParams.get('total_price') || '48.00') + ' ₽';
+        document.getElementById('ticket_id').textContent = urlParams.get('ticket_id') || '—';
+        document.getElementById('valid_until').textContent = urlParams.get('valid_until') || '—';
+
+        // Telegram Mini App настройки
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        Telegram.WebApp.setHeaderColor("#1e3a8a");
+        Telegram.WebApp.setBackgroundColor("#0f1b3a");
+    </script>
+</body>
+</html>
