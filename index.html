@@ -7,58 +7,26 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Roboto', system-ui, sans-serif;
             background: #000000;
             color: #ffffff;
             min-height: 100vh;
-            padding: 0;
-            overflow: hidden;
         }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: #000000;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        .container { max-width: 480px; margin: 0 auto; background: #000; min-height: 100vh; }
 
         /* Таймер */
         .countdown {
             text-align: center;
             font-size: 18px;
             font-weight: 500;
-            padding: 12px 0;
-            background: #111111;
-            color: #ffffff;
-            border-bottom: 1px solid #222222;
-        }
-
-        .countdown span {
-            color: #ff3b3b;
-            font-weight: 700;
-        }
-
-        /* Заголовок как в приложении */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 16px 8px 16px;
+            padding: 14px 0;
             background: #000000;
-            border-bottom: 1px solid #222222;
-            font-size: 17px;
-            font-weight: 500;
+            color: #ffffff;
+            border-bottom: 1px solid #222;
         }
+        .countdown span { color: #ff3b3b; font-weight: 700; }
 
         /* Табы */
         .tabs {
@@ -66,7 +34,6 @@
             background: #111111;
             border-bottom: 1px solid #222222;
         }
-
         .tab {
             flex: 1;
             padding: 14px 0;
@@ -78,14 +45,11 @@
             justify-content: center;
             gap: 8px;
             color: #aaaaaa;
-            position: relative;
-            cursor: pointer;
         }
-
         .tab.active {
             color: #ffffff;
+            position: relative;
         }
-
         .tab.active::after {
             content: '';
             position: absolute;
@@ -94,20 +58,14 @@
             right: 20%;
             height: 3px;
             background: #ff3b3b;
-            border-radius: 3px;
         }
-
-        .tab-icon {
-            font-size: 20px;
-        }
+        .tab-number { color: #ff3b3b; font-weight: 600; }
 
         /* Контент */
         .content {
-            flex: 1;
             padding: 0 16px;
-            overflow-y: auto;
+            flex: 1;
         }
-
         .section {
             display: flex;
             align-items: center;
@@ -115,67 +73,34 @@
             padding: 16px 0;
             border-bottom: 1px solid #222222;
         }
-
-        .section:last-child {
-            border-bottom: none;
-        }
-
-        .icon {
-            font-size: 28px;
-            width: 32px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
+        .section:last-child { border-bottom: none; }
+        .icon { font-size: 28px; width: 32px; flex-shrink: 0; }
         .label {
             font-size: 14px;
             color: #aaaaaa;
             margin-bottom: 2px;
         }
-
-        .value {
+        .value, .plate {
             font-size: 17px;
             font-weight: 500;
             color: #ffffff;
         }
+        .plate { font-size: 18px; font-weight: 600; margin-top: 2px; }
 
-        .plate {
-            font-size: 18px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-top: 4px;
-        }
-
-        .cost-value {
-            font-size: 19px;
-            font-weight: 600;
-        }
-
-        /* QR экран */
-        .qr-screen {
-            text-align: center;
-            padding-top: 30px;
-        }
-
-        .qr-screen p {
-            font-size: 15px;
-            color: #aaaaaa;
-            margin-bottom: 20px;
-        }
-
+        /* QR */
+        .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
             height: 260px;
-            background: #ffffff;
+            background: #fff;
             border-radius: 12px;
             padding: 12px;
-            box-shadow: 0 4px 20px rgba(255, 59, 59, 0.2);
+            box-shadow: 0 4px 20px rgba(255,59,59,0.2);
         }
 
-        /* Кнопка */
         .red-btn {
             background: #ff3b3b;
-            color: #ffffff;
+            color: white;
             border: none;
             font-size: 18px;
             font-weight: 700;
@@ -183,96 +108,75 @@
             border-radius: 12px;
             margin: 20px 16px;
             width: calc(100% - 32px);
-            box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
         }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Скроллбар */
-        .content::-webkit-scrollbar {
-            display: none;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Таймер -->
-        <div class="countdown">
-            Действует: <span id="seconds">15</span> сек.
-        </div>
+        <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
 
-        <!-- Табы -->
         <div class="tabs">
             <div class="tab active" id="tab-ticket">
-                <span class="tab-icon">📱</span>
-                <span id="control-number">1 670 582 072</span>
+                <span class="icon">📄</span>
+                <span id="control-number" class="tab-number"></span>
             </div>
             <div class="tab" id="tab-control">
-                <span class="tab-icon">👤</span>
+                <span class="icon">👤</span>
                 Контроль
             </div>
         </div>
 
-        <!-- Основной экран билета -->
         <div id="content-ticket" class="content">
-            <!-- Перевозчик -->
             <div class="section">
-                <div class="icon">👮‍♂️</div>
-                <div style="flex: 1;">
+                <div class="icon">👮</div>
+                <div style="flex:1">
                     <div class="label">Перевозчик</div>
-                    <div class="value" id="carrier">ООО "СТК"</div>
+                    <div class="value" id="carrier"></div>
                 </div>
             </div>
 
-            <!-- Маршрут + автобус -->
             <div class="section">
                 <div class="icon">🚌</div>
-                <div style="flex: 1;">
-                    <div id="address" class="value">ул Цимлянская - ст Красноярск-Северный</div>
-                    <div id="plate" class="plate">в583ск124</div>
+                <div style="flex:1">
+                    <div id="address" class="value"></div>
+                    <div id="plate" class="plate"></div>
                 </div>
             </div>
 
-            <!-- Стоимость -->
             <div class="section">
                 <div class="icon">₽</div>
-                <div style="flex: 1;">
+                <div style="flex:1">
                     <div class="label">Стоимость</div>
-                    <div id="cost" class="cost-value">3 шт., Полный, 144.00 ₽</div>
+                    <div id="cost" class="value"></div>
                 </div>
             </div>
 
-            <!-- Дата покупки -->
             <div class="section">
                 <div class="icon">📅</div>
-                <div style="flex: 1;">
+                <div style="flex:1">
                     <div class="label">Дата покупки</div>
-                    <div id="purchase_date" class="value">10 января 2026 г.</div>
+                    <div id="purchase_date" class="value"></div>
                 </div>
             </div>
 
-            <!-- Время покупки -->
             <div class="section">
                 <div class="icon">🕒</div>
-                <div style="flex: 1;">
+                <div style="flex:1">
                     <div class="label">Время покупки</div>
-                    <div id="purchase_time" class="value">20:35</div>
+                    <div id="purchase_time" class="value"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Экран Контроль (QR) -->
         <div id="content-control" class="content hidden">
             <div class="qr-screen">
                 <p>Предъявите QR-код контролёру</p>
-                <img id="qr-code" src="" alt="QR Code">
-                <p style="margin-top: 30px; font-size: 14px; color: #666;">Билет № <span id="qr-ticket-id"></span></p>
+                <img id="qr-code" src="" alt="QR">
+                <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
             </div>
         </div>
 
-        <!-- Кнопка Закрыть -->
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
 
@@ -280,90 +184,66 @@
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
 
-        // Получаем параметры из бота
-        const carrier = urlParams.get('carrier') || 'ООО "СТК"';
-        const address = urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный';
-        const plate = urlParams.get('plate') || 'в583ск124';
-        const totalPrice = urlParams.get('total_price') || '144.00';
-        const count = urlParams.get('count') || '3';
-        const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
-        const purchaseDate = urlParams.get('purchase_date') || '10 января 2026 г.';
-        const purchaseTime = urlParams.get('purchase_time') || '20:35';
-
-        // Заполняем данные на главном экране
-        function fillTicketData() {
-            document.getElementById('carrier').textContent = carrier;
-            document.getElementById('address').textContent = address;
-            document.getElementById('plate').textContent = plate;
-            document.getElementById('cost').innerHTML = `${count} шт., Полный, <span style="color:#ff3b3b">${totalPrice} ₽</span>`;
-            document.getElementById('purchase_date').textContent = purchaseDate;
-            document.getElementById('purchase_time').textContent = purchaseTime;
+        function fillData() {
+            document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
+            let addr = urlParams.get('address') || '';
+            addr = addr.replace('60, ', '');           // убираем "60," как на скрине
+            document.getElementById('address').textContent = addr;
+            document.getElementById('plate').textContent = urlParams.get('plate') || '';
+            const count = urlParams.get('count') || '3';
+            const price = urlParams.get('total_price') || '144.00';
+            document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
+            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '';
+            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '';
+            const ticketId = urlParams.get('ticket_id') || '';
             document.getElementById('control-number').textContent = ticketId;
             document.getElementById('qr-ticket-id').textContent = ticketId;
         }
 
-        // Таймер обратного отсчёта (сохраняется при перезаходе!)
+        // Таймер 15→0 при каждом открытии
         function startCountdown() {
-            let purchaseTimestamp = parseInt(urlParams.get('purchase_timestamp')) || Date.now();
-            const VALIDITY_SECONDS = 15; // ← можно изменить на любое значение
-            let expirationTime = purchaseTimestamp + (VALIDITY_SECONDS * 1000);
-
-            const secondsEl = document.getElementById('seconds');
-
-            function update() {
-                const now = Date.now();
-                let remaining = Math.max(0, Math.floor((expirationTime - now) / 1000));
-                secondsEl.textContent = remaining;
-
-                if (remaining > 0) {
-                    setTimeout(update, 1000);
-                } else {
-                    secondsEl.textContent = '0';
-                    secondsEl.style.color = '#666';
+            let seconds = 15;
+            const el = document.getElementById('seconds');
+            const timer = setInterval(() => {
+                seconds--;
+                el.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    el.textContent = '0';
                 }
-            }
-            update();
+            }, 1000);
         }
 
-        // Генерация QR-кода (через бесплатный API, выглядит как настоящий)
         function generateQR() {
-            const dataForQR = ticketId + '|' + address + '|' + plate; // можно добавить любые данные
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(dataForQR)}`;
-            document.getElementById('qr-code').src = qrUrl;
+            const ticketId = urlParams.get('ticket_id') || '';
+            const data = ticketId + '|' + urlParams.get('plate');
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
+            document.getElementById('qr-code').src = url;
         }
 
-        // Переключение вкладок
         function initTabs() {
-            const tabTicket = document.getElementById('tab-ticket');
-            const tabControl = document.getElementById('tab-control');
-            const contentTicket = document.getElementById('content-ticket');
-            const contentControl = document.getElementById('content-control');
+            const t1 = document.getElementById('tab-ticket');
+            const t2 = document.getElementById('tab-control');
+            const c1 = document.getElementById('content-ticket');
+            const c2 = document.getElementById('content-control');
 
-            tabTicket.addEventListener('click', () => {
-                tabTicket.classList.add('active');
-                tabControl.classList.remove('active');
-                contentTicket.classList.remove('hidden');
-                contentControl.classList.add('hidden');
+            t1.addEventListener('click', () => {
+                t1.classList.add('active'); t2.classList.remove('active');
+                c1.classList.remove('hidden'); c2.classList.add('hidden');
             });
-
-            tabControl.addEventListener('click', () => {
-                tabControl.classList.add('active');
-                tabTicket.classList.remove('active');
-                contentControl.classList.remove('hidden');
-                contentTicket.classList.add('hidden');
-                // Генерируем QR только при открытии вкладки
+            t2.addEventListener('click', () => {
+                t2.classList.add('active'); t1.classList.remove('active');
+                c2.classList.remove('hidden'); c1.classList.add('hidden');
                 generateQR();
             });
         }
 
-        // Запуск всего
         function init() {
             TelegramWebApp.ready();
             TelegramWebApp.expand();
             TelegramWebApp.setHeaderColor('#000000');
             TelegramWebApp.setBackgroundColor('#000000');
-
-            fillTicketData();
+            fillData();
             startCountdown();
             initTabs();
         }
