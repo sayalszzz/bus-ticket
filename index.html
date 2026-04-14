@@ -15,7 +15,8 @@
             min-height: 100vh;
         }
         .container { max-width: 480px; margin: 0 auto; background: #000; min-height: 100vh; }
-
+        
+        /* Действует — убрал красный цвет полностью */
         .countdown {
             text-align: center;
             font-size: 18px;
@@ -25,11 +26,14 @@
             color: #ffffff;
             border-bottom: 1px solid #222222;
         }
-        .countdown span { color: #ff3b3b; font-weight: 700; }
+        .countdown span { 
+            color: #ffffff; 
+            font-weight: 700; 
+        }
 
         .tabs {
             display: flex;
-            background: #111111;
+            background: #000000; /* сделал полностью чёрный фон, как у остальных блоков */
             border-bottom: 1px solid #222222;
         }
         .tab {
@@ -57,7 +61,19 @@
             height: 3px;
             background: #ff3b3b;
         }
-        .tab-number { color: #ff3b3b; font-weight: 600; }
+        .tab-number { 
+            color: #ff3b3b; 
+            font-weight: 600; 
+        }
+
+        /* Точные SVG-иконки для табов (без стикеров/эмодзи) */
+        .tab .icon svg {
+            width: 28px;
+            height: 28px;
+        }
+        .ticket-icon svg {
+            color: #ff3b3b !important; /* красная кнопка "1" (документ) — 1 в 1 как на фото */
+        }
 
         .content { padding: 0 16px; flex: 1; }
         .section {
@@ -80,7 +96,6 @@
             color: #ffffff;
         }
         .plate { font-size: 18px; font-weight: 600; margin-top: 2px; }
-
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
@@ -89,7 +104,6 @@
             border-radius: 12px;
             padding: 12px;
         }
-
         .red-btn {
             background: #ff3b3b;
             color: white;
@@ -106,25 +120,44 @@
 </head>
 <body>
     <div class="container">
-        <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
-
+        <div class="countdown">Действует: <span id="seconds">9</span> сек.</div>
+        
         <div class="tabs">
+            <!-- Кнопка 1 (документ) — красная 1 в 1, без стикеров -->
             <div class="tab active" id="tab-ticket">
-                <span class="icon">📄</span>
+                <span class="icon ticket-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
+            
+            <!-- Кнопка Контроль — серый человек, чёрный фон -->
             <div class="tab" id="tab-control">
-                <span class="icon">👤</span>
+                <span class="icon control-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                    </svg>
+                </span>
                 Контроль
             </div>
         </div>
 
         <div id="content-ticket" class="content">
-            <!-- Перевозчик -->
+            <!-- Перевозчик — иконка 1 в 1 (человек в фуражке) -->
             <div class="section">
                 <div class="icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                        <!-- Фуражка -->
+                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
+                        <!-- Голова -->
+                        <circle cx="12" cy="12.5" r="4"/>
+                        <!-- Тело -->
                         <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </div>
@@ -134,7 +167,7 @@
                 </div>
             </div>
 
-            <!-- Автобус -->
+            <!-- Автобус — иконка 1 в 1 -->
             <div class="section">
                 <div class="icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -150,11 +183,11 @@
                 </div>
             </div>
 
-            <!-- Стоимость -->
+            <!-- Стоимость — иконка ₽ 1 в 1 -->
             <div class="section">
                 <div class="icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v20M4 8h16M4 16h16"/>
+                        <text x="12" y="18.5" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" fill="#ffffff" stroke="none" font-family="'Roboto', sans-serif">₽</text>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -163,7 +196,7 @@
                 </div>
             </div>
 
-            <!-- Дата покупки -->
+            <!-- Дата покупки — иконка 1 в 1 -->
             <div class="section">
                 <div class="icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -179,12 +212,13 @@
                 </div>
             </div>
 
-            <!-- Время покупки -->
+            <!-- Время покупки — иконка 1 в 1 + стрелочка часов в нужном месте (как на фото) -->
             <div class="section">
                 <div class="icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6v6l4 2"/>
+                        <!-- Стрелочка часов поставлена точно как на скрине (20:35 позиция) -->
+                        <path d="M12 6v6l3.5 2"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -201,31 +235,36 @@
                 <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
             </div>
         </div>
-
+        
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
-
+        
         function fillData() {
+            // Данные под первое фото (можно менять через параметры)
             document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
-            let addr = (urlParams.get('address') || '').replace('60, ', '');
+            
+            let addr = (urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный').replace('60, ', '');
             document.getElementById('address').textContent = addr;
-            document.getElementById('plate').textContent = urlParams.get('plate') || '';
+            document.getElementById('plate').textContent = urlParams.get('plate') || 'в583ск124';
+            
             const count = urlParams.get('count') || '3';
             const price = urlParams.get('total_price') || '144.00';
             document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
-            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '';
-            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '';
-            const ticketId = urlParams.get('ticket_id') || '';
+            
+            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
+            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '20:35';
+            
+            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
             document.getElementById('control-number').textContent = ticketId;
             document.getElementById('qr-ticket-id').textContent = ticketId;
         }
 
         function startCountdown() {
-            let seconds = 15;
+            let seconds = 9; // как на первом фото
             const el = document.getElementById('seconds');
             const timer = setInterval(() => {
                 seconds--;
@@ -235,10 +274,10 @@
         }
 
         function generateQR() {
-            const ticketId = urlParams.get('ticket_id') || '';
-            const plate = urlParams.get('plate') || '';
+            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
+            const plate = urlParams.get('plate') || 'в583ск124';
             const data = ticketId + '|' + plate;
-            document.getElementById('qr-code').src = 
+            document.getElementById('qr-code').src =
                 `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
         }
 
@@ -247,14 +286,19 @@
             const t2 = document.getElementById('tab-control');
             const c1 = document.getElementById('content-ticket');
             const c2 = document.getElementById('content-control');
-
+            
             t1.addEventListener('click', () => {
-                t1.classList.add('active'); t2.classList.remove('active');
-                c1.classList.remove('hidden'); c2.classList.add('hidden');
+                t1.classList.add('active'); 
+                t2.classList.remove('active');
+                c1.classList.remove('hidden'); 
+                c2.classList.add('hidden');
             });
+            
             t2.addEventListener('click', () => {
-                t2.classList.add('active'); t1.classList.remove('active');
-                c2.classList.remove('hidden'); c1.classList.add('hidden');
+                t2.classList.add('active'); 
+                t1.classList.remove('active');
+                c2.classList.remove('hidden'); 
+                c1.classList.add('hidden');
                 generateQR();
             });
         }
@@ -268,7 +312,6 @@
             startCountdown();
             initTabs();
         }
-
         window.onload = init;
     </script>
 </body>
