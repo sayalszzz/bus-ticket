@@ -109,34 +109,28 @@
         #address {
             color: #aaaaaa;
         }
-        .carrier-icon svg,
-        .bus-icon svg,
-        .ruble-icon svg,
-        .calendar-icon svg,
-        .clock-icon svg,
-        .tab svg {
+        /* Общие стили для SVG */
+        svg {
             width: 28px;
             height: 28px;
-            stroke: #ffffff;
             stroke-width: 1.8;
-            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .carrier-icon svg, .tab svg {
+            stroke: #ffffff;
         }
         .tab.active svg {
             stroke: #ff3b3b;
         }
-        /* Кокарда на фуражке должна быть закрашена */
-        .badge-fill {
-            fill: currentColor;
-            stroke: none;
-        }
+
         .ruble-icon svg text {
             fill: #ffffff;
             stroke: none !important;
-            stroke-width: 0 !important;
             font-size: 24px;
-            font-weight: 400;
-            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
         }
+
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
@@ -149,7 +143,6 @@
             background: #ff3b3b;
             color: white;
             border: none;
-            box-shadow: none;
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
@@ -180,8 +173,8 @@
       
         <div class="tabs">
             <div class="tab active" id="tab-ticket">
-                <span class="icon ticket-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                         <line x1="16" y1="13" x2="8" y2="13"/>
@@ -191,25 +184,26 @@
                 <span id="control-number" class="tab-number"></span>
             </div>
             <div class="tab" id="tab-control">
-                <span class="icon control-icon">
+                <span class="icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M4 11.5L5 9C5.5 7 18.5 7 19 9L20 11.5H4Z" stroke-linejoin="round"/>
-                        <path d="M12 7.2V8.8" class="badge-fill" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M8 12C8 14 16 14 16 12" stroke-linecap="round"/>
-                        <path d="M4 20C4 17 9 16 12 18C15 16 20 17 20 20" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 10H18L19 7C19 5 5 5 5 7L6 10Z" />
+                        <path d="M12 6.5V8" stroke-width="2.5" />
+                        <path d="M9 13C9 14.5 12 16 15 13" />
+                        <path d="M4 20C4 17 8 16 12 18C16 16 20 17 20 20" />
                     </svg>
                 </span>
                 Контроль
             </div>
         </div>
+
         <div id="content-ticket" class="content">
             <div class="section">
                 <div class="icon carrier-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M4 11.5L5 9C5.5 7 18.5 7 19 9L20 11.5H4Z" stroke-linejoin="round"/>
-                        <path d="M12 7.2V8.8" class="badge-fill" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M8 12C8 14 16 14 16 12" stroke-linecap="round"/>
-                        <path d="M4 20C4 17 9 16 12 18C15 16 20 17 20 20" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff">
+                        <path d="M6 10H18L19 7C19 5 5 5 5 7L6 10Z" />
+                        <path d="M12 6.5V8" stroke-width="2.5" />
+                        <path d="M9 13C9 14.5 12 16 15 13" />
+                        <path d="M4 20C4 17 8 16 12 18C16 16 20 17 20 20" />
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -217,15 +211,13 @@
                     <div class="value" id="carrier"></div>
                 </div>
             </div>
+
             <div class="section">
-                <div class="icon bus-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff">
                         <rect x="2" y="7" width="20" height="11" rx="2" ry="2"/>
-                        <path d="M6 18v2"/>
-                        <path d="M18 18v2"/>
-                        <path d="M7 10h10"/>
-                        <circle cx="7" cy="19" r="2"/>
-                        <circle cx="17" cy="19" r="2"/>
+                        <path d="M6 18v2"/><path d="M18 18v2"/><path d="M7 10h10"/>
+                        <circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -233,25 +225,23 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
+
             <div class="section">
                 <div class="icon ruble-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                        <text x="12" y="17.5" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="700" font-family="'Roboto', sans-serif" fill="#ffffff">₽</text>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><text x="12" y="18" text-anchor="middle" dominant-baseline="middle">₽</text></svg>
                 </div>
                 <div style="flex:1">
                     <div class="label">Стоимость</div>
                     <div id="cost" class="value"></div>
                 </div>
             </div>
+
             <div class="section">
-                <div class="icon calendar-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                        <path d="M16 2v4"/>
-                        <path d="M8 2v4"/>
-                        <path d="M3 10h18"/>
-                        <rect x="6.5" y="13.5" width="6" height="6" fill="#ffffff" stroke="none" />
+                        <path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
+                        <rect x="7" y="14" width="6" height="5" fill="#ffffff" stroke="none" />
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -261,11 +251,10 @@
             </div>
             
             <div class="section">
-                <div class="icon clock-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff">
                         <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6v6.5"/>
-                        <path d="M12 12.5 L15.5 9"/>
+                        <path d="M12 6v6.5L15 14"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -274,6 +263,7 @@
                 </div>
             </div>
         </div>
+
         <div id="content-control" class="content hidden">
             <div class="qr-screen">
                 <p>Предъявите QR-код контролёру</p>
@@ -293,16 +283,14 @@
             const expireAt = urlParams.get('expire_at');
             if (expireAt) {
                 const expireDate = new Date(expireAt);
-                const now = new Date();
-                if (now > expireDate) {
+                if (new Date() > expireDate) {
                     document.getElementById('main-container').innerHTML = `
                         <div class="expired-container">
                             <div class="expired-icon">⌛</div>
                             <div class="expired-title">Срок действия билета закончился</div>
                             <div class="expired-text">Билет был действителен до ${expireDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                             <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
-                        </div>
-                    `;
+                        </div>`;
                     return true;
                 }
             }
@@ -311,78 +299,44 @@
 
         function fillData() {
             document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ИП Цугленок М М';
-          
-            let addr = (urlParams.get('address') || 'Автовокзал Восточный - Петрушина').replace('60, ', '');
-            document.getElementById('address').textContent = addr;
+            document.getElementById('address').textContent = (urlParams.get('address') || 'Автовокзал Восточный - Петрушина').replace('60, ', '');
             document.getElementById('plate').textContent = urlParams.get('plate') || 'е215тм124';
-          
-            const count = urlParams.get('count') || '1';
-            const price = urlParams.get('total_price') || '48.00';
-            document.getElementById('cost').innerHTML = `${count} шт., Полный, ${price} ₽`;
-          
+            document.getElementById('cost').innerHTML = `${urlParams.get('count') || '1'} шт., Полный, ${urlParams.get('total_price') || '48.00'} ₽`;
             document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '15 апреля 2026 г.';
             document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '12:00';
-          
-            const ticketId = urlParams.get('ticket_id') || '1 000 000 000';
-            document.getElementById('control-number').textContent = ticketId;
-            document.getElementById('qr-ticket-id').textContent = ticketId;
+            const tid = urlParams.get('ticket_id') || '1 000 000 000';
+            document.getElementById('control-number').textContent = tid;
+            document.getElementById('qr-ticket-id').textContent = tid;
         }
 
         function startCountdown() {
-            let seconds = 15;
+            let s = 15;
             const el = document.getElementById('seconds');
             const timer = setInterval(() => {
-                seconds--;
-                if (el) el.textContent = seconds;
-                if (seconds <= 0) clearInterval(timer);
+                s--;
+                if (el) el.textContent = s;
+                if (s <= 0) clearInterval(timer);
             }, 1000);
         }
 
         function generateQR() {
-            const ticketId = urlParams.get('ticket_id') || '1 000 000 000';
-            const plate = urlParams.get('plate') || 'е215тм124';
-            const data = ticketId + '|' + plate;
-            document.getElementById('qr-code').src =
-                `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
+            const data = (urlParams.get('ticket_id') || '1000000000') + '|' + (urlParams.get('plate') || 'е215тм124');
+            document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(data)}`;
         }
 
         function initTabs() {
-            const t1 = document.getElementById('tab-ticket');
-            const t2 = document.getElementById('tab-control');
-            const c1 = document.getElementById('content-ticket');
-            const c2 = document.getElementById('content-control');
-            
-            if (!t1 || !t2) return;
-
-            t1.addEventListener('click', () => {
-                t1.classList.add('active');
-                t2.classList.remove('active');
-                c1.classList.remove('hidden');
-                c2.classList.add('hidden');
-            });
-          
-            t2.addEventListener('click', () => {
-                t2.classList.add('active');
-                t1.classList.remove('active');
-                c2.classList.remove('hidden');
-                c1.classList.add('hidden');
-                generateQR();
-            });
+            const t1 = document.getElementById('tab-ticket'), t2 = document.getElementById('tab-control');
+            const c1 = document.getElementById('content-ticket'), c2 = document.getElementById('content-control');
+            t1.onclick = () => { t1.classList.add('active'); t2.classList.remove('active'); c1.classList.remove('hidden'); c2.classList.add('hidden'); };
+            t2.onclick = () => { t2.classList.add('active'); t1.classList.remove('active'); c2.classList.remove('hidden'); c1.classList.add('hidden'); generateQR(); };
         }
 
-        function init() {
+        window.onload = () => {
             TelegramWebApp.ready();
             TelegramWebApp.expand();
             TelegramWebApp.setHeaderColor('#000000');
-            TelegramWebApp.setBackgroundColor('#000000');
-            
-            if (!checkExpiration()) {
-                fillData();
-                startCountdown();
-                initTabs();
-            }
-        }
-        window.onload = init;
+            if (!checkExpiration()) { fillData(); startCountdown(); initTabs(); }
+        };
     </script>
 </body>
 </html>
