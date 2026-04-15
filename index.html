@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Городской Транспорт</title>
+    <title>Городской транспорт</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Roboto', system-ui, sans-serif;
-            background: #ffffff;
-            color: #111111;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
-            overflow: hidden;
         }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: #ffffff;
+        .container { 
+            max-width: 480px; 
+            margin: 0 auto; 
+            background: #000; 
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        .header {
-            height: 56px;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            font-size: 18px;
-            font-weight: 500;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .header span { cursor: pointer; }
-        .timer {
+        
+        /* Действует — убрал красный цвет и серую линию полностью */
+        .countdown {
             text-align: center;
             font-size: 18px;
             font-weight: 500;
-            padding: 12px 0;
-            color: #111111;
+            padding: 14px 0;
+            background: #000000;
+            color: #ffffff;
+            /* УБРАЛ border-bottom — теперь нет никакой серой линии */
         }
+        .countdown span { 
+            color: #ffffff; 
+            font-weight: 700; 
+        }
+
         .tabs {
             display: flex;
-            background: #ffffff;
-            border-bottom: 1px solid #e5e5e5;
+            background: #000000;
+            border-bottom: 1px solid #222222;
         }
         .tab {
             flex: 1;
@@ -55,10 +53,10 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: #666666;
+            color: #aaaaaa;
         }
         .tab.active {
-            color: #111111;
+            color: #ffffff;
             position: relative;
         }
         .tab.active::after {
@@ -68,101 +66,97 @@
             left: 20%;
             right: 20%;
             height: 3px;
-            background: #ef4444;
+            background: #ff3b3b;
         }
-        .tab-number { color: #ef4444; font-weight: 600; font-size: 17px; }
-        .content { flex: 1; padding: 0 16px; overflow-y: auto; }
+        .tab-number { 
+            color: #ff3b3b; 
+            font-weight: 600; 
+        }
+
+        .content { 
+            padding: 0 16px; 
+            flex: 1;
+        }
         .section {
             display: flex;
             align-items: center;
             gap: 16px;
             padding: 16px 0;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: 1px solid #222222;
         }
         .section:last-child { border-bottom: none; }
-        .icon { width: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .label { font-size: 14px; color: #666666; margin-bottom: 2px; }
-        .value, .plate { font-size: 17px; font-weight: 500; color: #111111; }
-        .plate { font-size: 18px; font-weight: 600; margin-top: 2px; font-family: monospace; }
+        .icon { 
+            width: 32px; 
+            flex-shrink: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .label {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-bottom: 2px;
+        }
+        .value, .plate {
+            font-size: 17px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        .plate { 
+            font-size: 18px; 
+            font-weight: 600; 
+            margin-top: 2px; 
+        }
+
+        /* Иконки — 1 в 1 как на твоём новом скрине */
+        .carrier-icon svg,
+        .bus-icon svg,
+        .ruble-icon svg,
+        .calendar-icon svg,
+        .clock-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: #ffffff;
+            stroke-width: 2;
+            fill: none;
+        }
+        .ruble-icon svg text {
+            fill: #ffffff;
+            stroke: none;
+        }
+
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
-        #qr-code { width: 260px; height: 260px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        #qr-code {
+            width: 260px;
+            height: 260px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        /* Кнопка ЗАКРЫТЬ — цвет и отступы 1 в 1 как на скрине */
         .red-btn {
-            background: #ef4444;
+            background: #ff3b3b;           /* точно тот же красный, что и у всех красных элементов */
             color: white;
             border: none;
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
             border-radius: 12px;
-            margin: 20px 16px 30px;
+            margin: 40px 16px 30px 16px;   /* большой отступ сверху — кнопка далеко внизу */
             width: calc(100% - 32px);
-        }
-
-        /* LOADING ANIMATION — точно как в видео */
-        #loading {
-            position: absolute;
-            inset: 0;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.4s ease;
-        }
-        .loader-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-        .squares {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .square {
-            width: 22px;
-            height: 22px;
-            background: #e5e5e5;
-            border-radius: 4px;
-            animation: squarePulse 1.4s infinite ease-in-out;
-        }
-        .square:nth-child(2) { animation-delay: 0.2s; }
-        .square:nth-child(3) { animation-delay: 0.4s; }
-        .square:nth-child(4) { animation-delay: 0.6s; }
-        @keyframes squarePulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-        .bus-loading {
-            opacity: 0;
-            transform: scale(0.6);
-            animation: busAppear 0.8s forwards;
-        }
-        @keyframes busAppear {
-            to { opacity: 1; transform: scale(1); }
         }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <span onclick="Telegram.WebApp.close()">✕</span>
-            <div class="flex-1 text-center">Городской Транспо...</div>
-            <span>▼</span>
-        </div>
-
-        <!-- TIMER -->
-        <div class="timer">Действует: <span id="seconds" style="color:#ef4444; font-weight:700;">15</span> сек.</div>
-
-        <!-- TABS (1 в 1 как в видео) -->
+        <div class="countdown">Действует: <span id="seconds">9</span> сек.</div>
+        
         <div class="tabs">
-            <!-- Билет таб (красный документ + красный номер) -->
             <div class="tab active" id="tab-ticket">
-                <span class="icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <span class="icon ticket-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                         <line x1="16" y1="13" x2="8" y2="13"/>
@@ -171,11 +165,9 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-
-            <!-- Контроль таб -->
             <div class="tab" id="tab-control">
-                <span class="icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <span class="icon control-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="8" r="4"/>
                         <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
                     </svg>
@@ -184,221 +176,170 @@
             </div>
         </div>
 
-        <!-- CONTENT -->
-        <div class="content" id="main-content">
-            <!-- Билет панель -->
-            <div id="panel-ticket">
-                <!-- Перевозчик -->
-                <div class="section">
-                    <div class="icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
-                            <circle cx="12" cy="12.5" r="3.8"/>
-                            <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
-                        </svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="label">Перевозчик</div>
-                        <div class="value" id="carrier"></div>
-                    </div>
+        <div id="content-ticket" class="content">
+            <!-- Перевозчик — иконка 1 в 1 (человек в фуражке) -->
+            <div class="section">
+                <div class="icon carrier-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Фуражка -->
+                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
+                        <!-- Голова -->
+                        <circle cx="12" cy="12.5" r="3.8"/>
+                        <!-- Тело + плечи -->
+                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                    </svg>
                 </div>
-
-                <!-- Автобус + номер -->
-                <div class="section">
-                    <div class="icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="8" width="18" height="10" rx="2" ry="2"/>
-                            <path d="M6 18v2"/>
-                            <path d="M18 18v2"/>
-                            <path d="M8 10h8"/>
-                        </svg>
-                    </div>
-                    <div style="flex:1">
-                        <div id="address" class="value"></div>
-                        <div id="plate" class="plate"></div>
-                    </div>
-                </div>
-
-                <!-- Стоимость -->
-                <div class="section">
-                    <div class="icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <text x="12" y="19" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" font-family="'Roboto', sans-serif">₽</text>
-                        </svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="label">Стоимость</div>
-                        <div id="cost" class="value"></div>
-                    </div>
-                </div>
-
-                <!-- Дата -->
-                <div class="section">
-                    <div class="icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                            <path d="M16 2v4"/>
-                            <path d="M8 2v4"/>
-                            <path d="M3 10h18"/>
-                        </svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="label">Дата покупки</div>
-                        <div id="purchase_date" class="value"></div>
-                    </div>
-                </div>
-
-                <!-- Время -->
-                <div class="section">
-                    <div class="icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6.5"/>
-                            <path d="M12 12.5 L15.5 15"/>
-                        </svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="label">Время покупки</div>
-                        <div id="purchase_time" class="value"></div>
-                    </div>
+                <div style="flex:1">
+                    <div class="label">Перевозчик</div>
+                    <div class="value" id="carrier"></div>
                 </div>
             </div>
 
-            <!-- Контроль панель -->
-            <div id="panel-control" class="hidden flex flex-col items-center pt-6">
-                <img id="qr-code" src="" alt="QR">
-                <div id="qr-ticket-id" class="mt-8 text-xl font-medium tracking-widest"></div>
+            <!-- Автобус — иконка 1 в 1 -->
+            <div class="section">
+                <div class="icon bus-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="8" width="18" height="10" rx="2" ry="2"/>
+                        <path d="M6 18v2"/>
+                        <path d="M18 18v2"/>
+                        <path d="M8 10h8"/>
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div id="address" class="value"></div>
+                    <div id="plate" class="plate"></div>
+                </div>
+            </div>
+
+            <!-- Стоимость — ₽ 1 в 1 -->
+            <div class="section">
+                <div class="icon ruble-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <text x="12" y="19" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" font-family="'Roboto', sans-serif">₽</text>
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div class="label">Стоимость</div>
+                    <div id="cost" class="value"></div>
+                </div>
+            </div>
+
+            <!-- Дата покупки — календарь 1 в 1 -->
+            <div class="section">
+                <div class="icon calendar-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M16 2v4"/>
+                        <path d="M8 2v4"/>
+                        <path d="M3 10h18"/>
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div class="label">Дата покупки</div>
+                    <div id="purchase_date" class="value"></div>
+                </div>
+            </div>
+
+            <!-- Время покупки — часы 1 в 1 со стрелочкой в правильном положении -->
+            <div class="section">
+                <div class="icon clock-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <!-- Стрелки часов точно как на скрине (20:35) -->
+                        <path d="M12 6v6.5"/>
+                        <path d="M12 12.5 L15.5 15"/>
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div class="label">Время покупки</div>
+                    <div id="purchase_time" class="value"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Кнопка -->
+        <div id="content-control" class="content hidden">
+            <div class="qr-screen">
+                <p>Предъявите QR-код контролёру</p>
+                <img id="qr-code" src="" alt="QR">
+                <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
+            </div>
+        </div>
+        
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
 
-    <!-- LOADING (автобус мигает как в видео) -->
-    <div id="loading">
-        <div class="loader-wrapper">
-            <!-- 4 квадрата -->
-            <div class="squares" id="squares">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-            </div>
-            <!-- Автобус -->
-            <svg id="bus-loading" width="82" height="62" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="bus-loading">
-                <rect x="25" y="45" width="150" height="78" rx="12" ry="12" fill="#f8f8f8" stroke="#222" stroke-width="14"/>
-                <rect x="38" y="32" width="124" height="28" rx="8" ry="8" fill="#f8f8f8" stroke="#222" stroke-width="14"/>
-                <rect x="48" y="47" width="32" height="26" fill="#e5e5e5" rx="3"/>
-                <rect x="90" y="47" width="32" height="26" fill="#e5e5e5" rx="3"/>
-                <circle cx="48" cy="115" r="11" fill="#111"/>
-                <circle cx="152" cy="115" r="11" fill="#111"/>
-                <circle cx="65" cy="137" r="16" fill="#222"/>
-                <circle cx="135" cy="137" r="16" fill="#222"/>
-            </svg>
-        </div>
-    </div>
-
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
-        let timeLeft = 15;
+        
+        function fillData() {
+            document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
+            
+            let addr = (urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный').replace('60, ', '');
+            document.getElementById('address').textContent = addr;
+            document.getElementById('plate').textContent = urlParams.get('plate') || 'в583ск124';
+            
+            const count = urlParams.get('count') || '3';
+            const price = urlParams.get('total_price') || '144.00';
+            document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
+            
+            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
+            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '20:35';
+            
+            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
+            document.getElementById('control-number').textContent = ticketId;
+            document.getElementById('qr-ticket-id').textContent = ticketId;
+        }
 
-        function startTimer() {
+        function startCountdown() {
+            let seconds = 9;
             const el = document.getElementById('seconds');
             const timer = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    el.textContent = timeLeft;
-                } else {
-                    clearInterval(timer);
-                }
+                seconds--;
+                el.textContent = seconds;
+                if (seconds <= 0) clearInterval(timer);
             }, 1000);
+        }
+
+        function generateQR() {
+            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
+            const plate = urlParams.get('plate') || 'в583ск124';
+            const data = ticketId + '|' + plate;
+            document.getElementById('qr-code').src =
+                `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
         }
 
         function initTabs() {
             const t1 = document.getElementById('tab-ticket');
             const t2 = document.getElementById('tab-control');
-            const p1 = document.getElementById('panel-ticket');
-            const p2 = document.getElementById('panel-control');
-
+            const c1 = document.getElementById('content-ticket');
+            const c2 = document.getElementById('content-control');
+            
             t1.addEventListener('click', () => {
-                t1.classList.add('active');
+                t1.classList.add('active'); 
                 t2.classList.remove('active');
-                p1.classList.remove('hidden');
-                p2.classList.add('hidden');
+                c1.classList.remove('hidden'); 
+                c2.classList.add('hidden');
             });
-
+            
             t2.addEventListener('click', () => {
-                t2.classList.add('active');
+                t2.classList.add('active'); 
                 t1.classList.remove('active');
-                p1.classList.add('hidden');
-                p2.classList.remove('hidden');
+                c2.classList.remove('hidden'); 
+                c1.classList.add('hidden');
+                generateQR();
             });
-        }
-
-        function loadData() {
-            const p = new URLSearchParams(location.search);
-            
-            // Данные из Python
-            document.getElementById('carrier').textContent = p.get('carrier') || 'ИП Цугленок М.М.';
-            
-            let addr = (p.get('address') || '').replace('60, ', '').replace(/"/g, '');
-            document.getElementById('address').textContent = addr;
-            document.getElementById('plate').textContent = p.get('plate') || 'x492xe124';
-            
-            const count = p.get('count') || '1';
-            const total = p.get('total_price') || '48.00';
-            document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${total} ₽</strong>`;
-            
-            document.getElementById('purchase_date').textContent = p.get('purchase_date') || '15 апреля 2026 г.';
-            document.getElementById('purchase_time').textContent = p.get('purchase_time') || '07:39';
-            
-            const ticketId = p.get('ticket_id') || '1 477 484 242';
-            document.getElementById('control-number').textContent = ticketId;
-            document.getElementById('qr-ticket-id').textContent = '№ ' + ticketId;
-
-            // QR
-            const qrData = ticketId.replace(/\s/g, '');
-            document.getElementById('qr-code').src = 
-                `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(qrData)}`;
-        }
-
-        function startLoadingAnimation() {
-            const loading = document.getElementById('loading');
-            const squares = document.getElementById('squares');
-            const bus = document.getElementById('bus-loading');
-
-            // Показываем квадраты
-            setTimeout(() => {
-                squares.style.display = 'grid';
-            }, 100);
-
-            // Через 1 секунду убираем квадраты и показываем автобус
-            setTimeout(() => {
-                squares.style.display = 'none';
-                bus.style.display = 'block';
-            }, 1100);
-
-            // Через 2.8 секунды полностью убираем лоадер
-            setTimeout(() => {
-                loading.style.opacity = '0';
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                }, 400);
-            }, 2800);
         }
 
         function init() {
+            TelegramWebApp.ready();
             TelegramWebApp.expand();
-            TelegramWebApp.setHeaderColor('#ffffff');
-            TelegramWebApp.setBackgroundColor('#ffffff');
-
-            startLoadingAnimation();
-            loadData();
-            startTimer();
+            TelegramWebApp.setHeaderColor('#000000');
+            TelegramWebApp.setBackgroundColor('#000000');
+            fillData();
+            startCountdown();
             initTabs();
         }
-
         window.onload = init;
     </script>
 </body>
