@@ -23,7 +23,6 @@
             flex-direction: column;
         }
       
-        /* Действует — убрал красный цвет и серую линию полностью */
         .countdown {
             text-align: center;
             font-size: 18px;
@@ -53,9 +52,9 @@
             gap: 8px;
             color: #aaaaaa;
         }
+        /* 🔥 НОВОЕ: активная вкладка полностью красная (иконка + текст) */
         .tab.active {
-            color: #ffffff;
-            position: relative;
+            color: #ff3b3b;
         }
         .tab.active::after {
             content: '';
@@ -104,21 +103,25 @@
             font-weight: 600;
             margin-top: 2px;
         }
-        /* АДРЕС (Автовокзал Восточный - Петрушина и т.д.) — СЕРЫЙ как просил */
         #address {
             color: #aaaaaa;
         }
-        /* Иконки — ТОЧНО как в твоей ПРОШЛОЙ версии + сделали тоньше (не жирные) */
+        /* Иконки — тонкие + красные при активной вкладке */
         .carrier-icon svg,
         .bus-icon svg,
         .ruble-icon svg,
         .calendar-icon svg,
-        .clock-icon svg {
+        .clock-icon svg,
+        .tab svg {
             width: 28px;
             height: 28px;
             stroke: #ffffff;
-            stroke-width: 1.5; /* ← сделал тоньше по твоей просьбе */
+            stroke-width: 1.5;
             fill: none;
+        }
+        /* Красные иконки в активной вкладке */
+        .tab.active svg {
+            stroke: #ff3b3b;
         }
         .ruble-icon svg text {
             fill: #ffffff;
@@ -151,7 +154,7 @@
         <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
       
         <div class="tabs">
-            <!-- Таб "Билет" (документ красный) -->
+            <!-- Таб "Билет" -->
             <div class="tab active" id="tab-ticket">
                 <span class="icon ticket-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -163,32 +166,28 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-            <!-- Таб "Контроль" — иконка как было в прошлой версии (простая, без глаз/улыбки/козырька) -->
+            <!-- Таб "Контроль" — НОВАЯ иконка (человек) 1 в 1 как на твоей фотке -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Фуражка -->
-                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <!-- Голова -->
-                        <circle cx="12" cy="12.5" r="3.8"/>
-                        <!-- Тело + плечи -->
-                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <circle cx="12" cy="8" r="3.5"/>
+                        <!-- Тело + плечи (точно как на твоей первой фотке) -->
+                        <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </span>
                 Контроль
             </div>
         </div>
         <div id="content-ticket" class="content">
-            <!-- Перевозчик — иконка как было в прошлой версии (простая, не жирная) -->
+            <!-- Перевозчик — НОВАЯ иконка (человек) 1 в 1 как на фотке -->
             <div class="section">
                 <div class="icon carrier-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Фуражка -->
-                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
                         <!-- Голова -->
-                        <circle cx="12" cy="12.5" r="3.8"/>
-                        <!-- Тело + плечи -->
-                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <circle cx="12" cy="8" r="3.5"/>
+                        <!-- Тело + плечи (точно как на твоей первой фотке) -->
+                        <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -196,7 +195,7 @@
                     <div class="value" id="carrier"></div>
                 </div>
             </div>
-            <!-- Автобус — новая иконка 1 в 1 как на твоей фотке -->
+            <!-- Автобус -->
             <div class="section">
                 <div class="icon bus-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -213,11 +212,11 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
-            <!-- Стоимость — ₽ 1 в 1 -->
+            <!-- Стоимость — НОВАЯ иконка ₽ 1 в 1 как на твоей второй фотке -->
             <div class="section">
                 <div class="icon ruble-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <text x="12" y="19" text-anchor="middle" dominant-baseline="middle" font-size="23" font-weight="700" font-family="'Roboto', sans-serif">₽</text>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <text x="12" y="17.5" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="700" font-family="'Roboto', sans-serif" fill="#ffffff">₽</text>
                     </svg>
                 </div>
                 <div style="flex:1">
