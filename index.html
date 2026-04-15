@@ -92,7 +92,7 @@
             justify-content: center;
         }
 
-        /* ===================== PNG ИКОНКИ ===================== */
+        /* ===================== ТВОИ PNG ИКОНКИ ===================== */
         .carrier-icon, .bus-icon, .ruble-icon,
         .calendar-icon, .clock-icon, .control-icon {
             width: 36px;
@@ -108,7 +108,18 @@
         .clock-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/clock-icon.png'); }
         .control-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/control-icon.png'); }
 
-        /* SVG-иконка только для вкладки "Билет" */
+        /* ВСЕ ИКОНКИ ЯРКИЕ (точно как на твоём 2-м скриншоте) */
+        .carrier-icon,
+        .bus-icon,
+        .ruble-icon,
+        .calendar-icon,
+        .clock-icon,
+        .control-icon {
+            filter: brightness(1.45) contrast(1.25);
+        }
+
+        #address { color: #ffffff; }
+
         .tab svg {
             width: 28px;
             height: 28px;
@@ -116,9 +127,7 @@
             stroke-width: 1.5;
             fill: none;
         }
-        .tab.active svg {
-            stroke: #ff3b3b;
-        }
+        .tab.active svg { stroke: #ff3b3b; }
 
         .label {
             font-size: 14px;
@@ -135,9 +144,6 @@
             font-weight: 600;
             margin-top: 2px;
         }
-        #address {
-            color: #aaaaaa;
-        }
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
@@ -150,7 +156,6 @@
             background: #ff3b3b;
             color: white;
             border: none;
-            box-shadow: none;
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
@@ -228,7 +233,7 @@
             <div class="section">
                 <div class="icon clock-icon"></div>
                 <div style="flex:1">
-                    <div class="label">Время покупки</div>
+                    <div class="label">Время покупки:</div>
                     <div id="purchase_time" class="value"></div>
                 </div>
             </div>
