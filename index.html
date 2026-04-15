@@ -52,7 +52,6 @@
             gap: 8px;
             color: #aaaaaa;
         }
-        /* Красный цвет только на активной вкладке */
         .tab.active {
             color: #ff3b3b;
         }
@@ -65,10 +64,9 @@
             height: 3px;
             background: #ff3b3b;
         }
-        /* Номер билета красный ТОЛЬКО когда вкладка "Билет" активна */
         .tab-number {
             font-weight: 600;
-            color: #aaaaaa; /* по умолчанию серый */
+            color: #aaaaaa;
         }
         .tab.active .tab-number {
             color: #ff3b3b;
@@ -110,7 +108,6 @@
         #address {
             color: #aaaaaa;
         }
-        /* Все иконки тонкие */
         .carrier-icon svg,
         .bus-icon svg,
         .ruble-icon svg,
@@ -123,7 +120,6 @@
             stroke-width: 1.5;
             fill: none;
         }
-        /* Красные иконки только в активной вкладке */
         .tab.active svg {
             stroke: #ff3b3b;
         }
@@ -139,10 +135,12 @@
             border-radius: 12px;
             padding: 12px;
         }
+        /* 🔥 Кнопка ЗАКРЫТЬ — цвет точно как у красной вкладки "Билет" */
         .red-btn {
             background: #ff3b3b;
             color: white;
             border: none;
+            box-shadow: none;           /* убрал любое красное свечение */
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
@@ -170,13 +168,11 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-            <!-- Таб "Контроль" — иконка человек 1 в 1 -->
+            <!-- Таб "Контроль" -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Голова -->
                         <circle cx="12" cy="8" r="3.5"/>
-                        <!-- Тело + плечи -->
                         <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </span>
@@ -184,13 +180,11 @@
             </div>
         </div>
         <div id="content-ticket" class="content">
-            <!-- Перевозчик — иконка человек 1 в 1 -->
+            <!-- Перевозчик -->
             <div class="section">
                 <div class="icon carrier-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Голова -->
                         <circle cx="12" cy="8" r="3.5"/>
-                        <!-- Тело + плечи -->
                         <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </div>
@@ -216,7 +210,7 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
-            <!-- Стоимость — иконка ₽ 1 в 1 + убрал жирный шрифт -->
+            <!-- Стоимость -->
             <div class="section">
                 <div class="icon ruble-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -266,6 +260,7 @@
             </div>
         </div>
       
+        <!-- Кнопка ЗАКРЫТЬ — теперь цвет точно как у красной вкладки "Билет" и без красного свечения под ней -->
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
     <script>
@@ -281,7 +276,6 @@
           
             const count = urlParams.get('count') || '3';
             const price = urlParams.get('total_price') || '144.00';
-            // Убрал <strong> — теперь без жирного шрифта
             document.getElementById('cost').innerHTML = `${count} шт., Полный, ${price} ₽`;
           
             document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
