@@ -111,7 +111,7 @@
             color: #aaaaaa;
         }
 
-        /* ===================== ИКОНКИ ===================== */
+        /* ===================== PNG ИКОНКИ ===================== */
         .carrier-icon {
             width: 36px;
             height: 36px;
@@ -130,8 +130,16 @@
             background-position: center;
         }
 
-        .bus-icon svg,
-        .ruble-icon svg,
+        .ruble-icon {
+            width: 36px;
+            height: 36px;
+            background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/ruble-icon.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* SVG иконки (оставляем как было) */
         .calendar-icon svg,
         .clock-icon svg,
         .tab svg {
@@ -143,14 +151,6 @@
         }
         .tab.active svg {
             stroke: #ff3b3b;
-        }
-        .ruble-icon svg text {
-            fill: #ffffff;
-            stroke: none !important;
-            stroke-width: 0 !important;
-            font-size: 24px;
-            font-weight: 400;
-            font-family: 'Roboto', sans-serif;
         }
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
@@ -174,7 +174,6 @@
             cursor: pointer;
         }
         .hidden { display: none !important; }
-        /* Стили для экрана истечения срока */
         .expired-container {
             display: flex;
             flex-direction: column;
@@ -231,32 +230,27 @@
                 </div>
             </div>
             <div class="section">
-                <div class="icon ruble-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                        <text x="12" y="17.5" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="700" font-family="'Roboto', sans-serif" fill="#ffffff">₽</text>
-                    </svg>
-                </div>
+                <div class="icon ruble-icon"></div>
                 <div style="flex:1">
                     <div class="label">Стоимость</div>
                     <div id="cost" class="value"></div>
                 </div>
             </div>
-<div class="section">
-    <div class="icon calendar-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <path d="M16 2v4"/>
-            <path d="M8 2v4"/>
-            <path d="M3 10h18"/>
-            <rect x="6.5" y="13.5" width="6" height="6" fill="#ffffff" stroke="none" />
-        </svg>
-    </div>
-    <div style="flex:1">
-        <div class="label">Дата покупки</div>
-        <div id="purchase_date" class="value"></div>
-    </div>
-</div>
-           
+            <div class="section">
+                <div class="icon calendar-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M16 2v4"/>
+                        <path d="M8 2v4"/>
+                        <path d="M3 10h18"/>
+                        <rect x="6.5" y="13.5" width="6" height="6" fill="#ffffff" stroke="none" />
+                    </svg>
+                </div>
+                <div style="flex:1">
+                    <div class="label">Дата покупки</div>
+                    <div id="purchase_date" class="value"></div>
+                </div>
+            </div>
             <div class="section">
                 <div class="icon clock-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -307,18 +301,14 @@
         }
         function fillData() {
             document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ИП Цугленок М М';
-         
             let addr = (urlParams.get('address') || 'Автовокзал Восточный - Петрушина').replace('60, ', '');
             document.getElementById('address').textContent = addr;
             document.getElementById('plate').textContent = urlParams.get('plate') || 'е215тм124';
-         
             const count = urlParams.get('count') || '1';
             const price = urlParams.get('total_price') || '48.00';
             document.getElementById('cost').innerHTML = `${count} шт., Полный, ${price} ₽`;
-         
             document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '15 апреля 2026 г.';
             document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '12:00';
-         
             const ticketId = urlParams.get('ticket_id') || '1 000 000 000';
             document.getElementById('control-number').textContent = ticketId;
             document.getElementById('qr-ticket-id').textContent = ticketId;
@@ -352,7 +342,6 @@
                 c1.classList.remove('hidden');
                 c2.classList.add('hidden');
             });
-         
             t2.addEventListener('click', () => {
                 t2.classList.add('active');
                 t1.classList.remove('active');
