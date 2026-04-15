@@ -41,14 +41,14 @@
         }
         .tab {
             flex: 1;
-            padding: 14px 0;
+            padding: 13px 0;
             text-align: center;
-            font-size: 16px;
+            font-size: 15.5px;
             font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 7px;
             color: #aaaaaa;
             position: relative;
         }
@@ -59,8 +59,8 @@
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20%;
-            right: 20%;
+            left: 18%;     /* СДЕЛАЛ КРАСНУЮ ЛИНИЮ ДЛИННЕЕ (как на оригинальном 2-м фото) */
+            right: 18%;
             height: 3px;
             background: #ff3b3b;
         }
@@ -79,24 +79,44 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #222222;
         }
         .section:last-child { border-bottom: none; }
+
+        /* ===================== РАЗНЫЕ РАЗМЕРЫ ИКОНОК ===================== */
         .icon {
-            width: 36px;
-            height: 36px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* ===================== ТВОИ PNG ИКОНКИ ===================== */
+        /* ВЕРХНИЕ иконки во вкладках — МЕНЬШЕ (как просил) */
+        .tab .icon {
+            width: 26px;
+            height: 26px;
+        }
+        .tab svg {
+            width: 24px;
+            height: 24px;
+            stroke: #ffffff;
+            stroke-width: 1.5;
+            fill: none;
+        }
+        .tab.active svg {
+            stroke: #ff3b3b;
+        }
+
+        /* НИЖНИЕ иконки (перевозчик, автобус, рубль, календарь, часы) — БОЛЬШЕ */
+        .section .icon {
+            width: 38px;
+            height: 38px;
+        }
+
+        /* ===================== PNG ИКОНКИ ===================== */
         .carrier-icon, .bus-icon, .ruble-icon,
         .calendar-icon, .clock-icon, .control-icon {
-            width: 36px;
-            height: 36px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -108,7 +128,7 @@
         .clock-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/clock-icon.png'); }
         .control-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/control-icon.png'); }
 
-        /* ВСЕ ИКОНКИ ЯРКИЕ (точно как на твоём 2-м скриншоте) */
+        /* Все твои PNG-иконки яркие */
         .carrier-icon,
         .bus-icon,
         .ruble-icon,
@@ -118,16 +138,10 @@
             filter: brightness(1.45) contrast(1.25);
         }
 
-        #address { color: #ffffff; }
-
-        .tab svg {
-            width: 28px;
-            height: 28px;
-            stroke: #ffffff;
-            stroke-width: 1.5;
-            fill: none;
+        /* Адрес — серый (как было в оригинале) */
+        #address {
+            color: #aaaaaa;
         }
-        .tab.active svg { stroke: #ff3b3b; }
 
         .label {
             font-size: 14px;
@@ -135,14 +149,14 @@
             margin-bottom: 2px;
         }
         .value, .plate {
-            font-size: 17px;
+            font-size: 16.5px;
             font-weight: 500;
             color: #ffffff;
         }
         .plate {
-            font-size: 18px;
+            font-size: 17.5px;
             font-weight: 600;
-            margin-top: 2px;
+            margin-top: 3px;
         }
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
@@ -186,7 +200,7 @@
         <div class="tabs">
             <div class="tab active" id="tab-ticket">
                 <span class="icon ticket-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                         <line x1="16" y1="13" x2="8" y2="13"/>
