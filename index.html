@@ -52,7 +52,7 @@
             gap: 8px;
             color: #aaaaaa;
         }
-        /* 🔥 НОВОЕ: активная вкладка полностью красная (иконка + текст) */
+        /* Красный цвет только на активной вкладке */
         .tab.active {
             color: #ff3b3b;
         }
@@ -65,9 +65,13 @@
             height: 3px;
             background: #ff3b3b;
         }
+        /* Номер билета красный ТОЛЬКО когда вкладка "Билет" активна */
         .tab-number {
-            color: #ff3b3b;
             font-weight: 600;
+            color: #aaaaaa; /* по умолчанию серый */
+        }
+        .tab.active .tab-number {
+            color: #ff3b3b;
         }
         .content {
             padding: 0 16px;
@@ -106,7 +110,7 @@
         #address {
             color: #aaaaaa;
         }
-        /* Иконки — тонкие + красные при активной вкладке */
+        /* Все иконки тонкие */
         .carrier-icon svg,
         .bus-icon svg,
         .ruble-icon svg,
@@ -119,7 +123,7 @@
             stroke-width: 1.5;
             fill: none;
         }
-        /* Красные иконки в активной вкладке */
+        /* Красные иконки только в активной вкладке */
         .tab.active svg {
             stroke: #ff3b3b;
         }
@@ -166,13 +170,13 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-            <!-- Таб "Контроль" — НОВАЯ иконка (человек) 1 в 1 как на твоей фотке -->
+            <!-- Таб "Контроль" — иконка человек 1 в 1 -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <!-- Голова -->
                         <circle cx="12" cy="8" r="3.5"/>
-                        <!-- Тело + плечи (точно как на твоей первой фотке) -->
+                        <!-- Тело + плечи -->
                         <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </span>
@@ -180,13 +184,13 @@
             </div>
         </div>
         <div id="content-ticket" class="content">
-            <!-- Перевозчик — НОВАЯ иконка (человек) 1 в 1 как на фотке -->
+            <!-- Перевозчик — иконка человек 1 в 1 -->
             <div class="section">
                 <div class="icon carrier-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <!-- Голова -->
                         <circle cx="12" cy="8" r="3.5"/>
-                        <!-- Тело + плечи (точно как на твоей первой фотке) -->
+                        <!-- Тело + плечи -->
                         <path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </div>
@@ -212,7 +216,7 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
-            <!-- Стоимость — НОВАЯ иконка ₽ 1 в 1 как на твоей второй фотке -->
+            <!-- Стоимость — иконка ₽ 1 в 1 + убрал жирный шрифт -->
             <div class="section">
                 <div class="icon ruble-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -277,7 +281,8 @@
           
             const count = urlParams.get('count') || '3';
             const price = urlParams.get('total_price') || '144.00';
-            document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
+            // Убрал <strong> — теперь без жирного шрифта
+            document.getElementById('cost').innerHTML = `${count} шт., Полный, ${price} ₽`;
           
             document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
             document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '20:35';
