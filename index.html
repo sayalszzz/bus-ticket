@@ -51,6 +51,7 @@
             justify-content: center;
             gap: 8px;
             color: #aaaaaa;
+            position: relative;
         }
         .tab.active {
             color: #ff3b3b;
@@ -135,28 +136,41 @@
             border-radius: 12px;
             padding: 12px;
         }
-        /* 🔥 Кнопка ЗАКРЫТЬ — цвет точно как у красной вкладки "Билет" */
         .red-btn {
             background: #ff3b3b;
             color: white;
             border: none;
-            box-shadow: none;           /* убрал любое красное свечение */
+            box-shadow: none;
             font-size: 18px;
             font-weight: 700;
             padding: 16px;
             border-radius: 12px;
             margin: 40px 16px 30px 16px;
             width: calc(100% - 32px);
+            cursor: pointer;
         }
         .hidden { display: none !important; }
+
+        /* Стили для экрана истечения срока */
+        .expired-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .expired-icon { font-size: 64px; margin-bottom: 20px; }
+        .expired-title { font-size: 22px; font-weight: 700; color: #ff3b3b; margin-bottom: 10px; }
+        .expired-text { color: #aaaaaa; font-size: 16px; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="main-container" class="container">
         <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
       
         <div class="tabs">
-            <!-- Таб "Билет" -->
             <div class="tab active" id="tab-ticket">
                 <span class="icon ticket-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -168,7 +182,6 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-            <!-- Таб "Контроль" -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -180,7 +193,6 @@
             </div>
         </div>
         <div id="content-ticket" class="content">
-            <!-- Перевозчик -->
             <div class="section">
                 <div class="icon carrier-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -193,7 +205,6 @@
                     <div class="value" id="carrier"></div>
                 </div>
             </div>
-            <!-- Автобус -->
             <div class="section">
                 <div class="icon bus-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -210,7 +221,6 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
-            <!-- Стоимость -->
             <div class="section">
                 <div class="icon ruble-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -222,7 +232,6 @@
                     <div id="cost" class="value"></div>
                 </div>
             </div>
-            <!-- Дата покупки -->
             <div class="section">
                 <div class="icon calendar-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -237,7 +246,6 @@
                     <div id="purchase_date" class="value"></div>
                 </div>
             </div>
-            <!-- Время покупки -->
             <div class="section">
                 <div class="icon clock-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -260,53 +268,78 @@
             </div>
         </div>
       
-        <!-- Кнопка ЗАКРЫТЬ — теперь цвет точно как у красной вкладки "Билет" и без красного свечения под ней -->
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
+
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
       
+        function checkExpiration() {
+            const expireAt = urlParams.get('expire_at');
+            if (expireAt) {
+                const expireDate = new Date(expireAt);
+                const now = new Date();
+                if (now > expireDate) {
+                    document.getElementById('main-container').innerHTML = `
+                        <div class="expired-container">
+                            <div class="expired-icon">⌛</div>
+                            <div class="expired-title">Срок действия билета закончился</div>
+                            <div class="expired-text">Билет был действителен до ${expireDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                            <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
+                        </div>
+                    `;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         function fillData() {
-            document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
+            document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ИП Цугленок М М';
           
-            let addr = (urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный').replace('60, ', '');
+            let addr = (urlParams.get('address') || 'Автовокзал Восточный - Петрушина').replace('60, ', '');
             document.getElementById('address').textContent = addr;
-            document.getElementById('plate').textContent = urlParams.get('plate') || 'в583ск124';
+            document.getElementById('plate').textContent = urlParams.get('plate') || 'е215тм124';
           
-            const count = urlParams.get('count') || '3';
-            const price = urlParams.get('total_price') || '144.00';
+            const count = urlParams.get('count') || '1';
+            const price = urlParams.get('total_price') || '48.00';
             document.getElementById('cost').innerHTML = `${count} шт., Полный, ${price} ₽`;
           
-            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
-            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '20:35';
+            document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '15 апреля 2026 г.';
+            document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '12:00';
           
-            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
+            const ticketId = urlParams.get('ticket_id') || '1 000 000 000';
             document.getElementById('control-number').textContent = ticketId;
             document.getElementById('qr-ticket-id').textContent = ticketId;
         }
+
         function startCountdown() {
             let seconds = 15;
             const el = document.getElementById('seconds');
             const timer = setInterval(() => {
                 seconds--;
-                el.textContent = seconds;
+                if (el) el.textContent = seconds;
                 if (seconds <= 0) clearInterval(timer);
             }, 1000);
         }
+
         function generateQR() {
-            const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
-            const plate = urlParams.get('plate') || 'в583ск124';
+            const ticketId = urlParams.get('ticket_id') || '1 000 000 000';
+            const plate = urlParams.get('plate') || 'е215тм124';
             const data = ticketId + '|' + plate;
             document.getElementById('qr-code').src =
                 `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
         }
+
         function initTabs() {
             const t1 = document.getElementById('tab-ticket');
             const t2 = document.getElementById('tab-control');
             const c1 = document.getElementById('content-ticket');
             const c2 = document.getElementById('content-control');
-          
+            
+            if (!t1 || !t2) return;
+
             t1.addEventListener('click', () => {
                 t1.classList.add('active');
                 t2.classList.remove('active');
@@ -322,14 +355,19 @@
                 generateQR();
             });
         }
+
         function init() {
             TelegramWebApp.ready();
             TelegramWebApp.expand();
             TelegramWebApp.setHeaderColor('#000000');
             TelegramWebApp.setBackgroundColor('#000000');
-            fillData();
-            startCountdown();
-            initTabs();
+            
+            // Сначала проверяем, не просрочен ли билет
+            if (!checkExpiration()) {
+                fillData();
+                startCountdown();
+                initTabs();
+            }
         }
         window.onload = init;
     </script>
