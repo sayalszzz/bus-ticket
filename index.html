@@ -22,7 +22,7 @@
             display: flex;
             flex-direction: column;
         }
-       
+      
         /* Действует — убрал красный цвет и серую линию полностью */
         .countdown {
             text-align: center;
@@ -104,12 +104,10 @@
             font-weight: 600;
             margin-top: 2px;
         }
-
         /* АДРЕС (Автовокзал Восточный - Петрушина и т.д.) — СЕРЫЙ как просил */
         #address {
             color: #aaaaaa;
         }
-
         /* Иконки — ТОЧНО как на твоей новой фотке */
         .carrier-icon svg,
         .bus-icon svg,
@@ -151,7 +149,7 @@
 <body>
     <div class="container">
         <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
-       
+      
         <div class="tabs">
             <!-- Таб "Билет" (документ красный) -->
             <div class="tab active" id="tab-ticket">
@@ -165,34 +163,54 @@
                 </span>
                 <span id="control-number" class="tab-number"></span>
             </div>
-
-            <!-- Таб "Контроль" — теперь иконка ПЕРЕВОЗЧИК (человек в фуражке) как на твоей фотке -->
+            <!-- Таб "Контроль" — теперь иконка ПЕРЕВОЗЧИК (человек в фуражке) 1 в 1 как на фотке -->
             <div class="tab" id="tab-control">
                 <span class="icon control-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Фуражка -->
-                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Фуражка (точная форма с козырьком и кокардой) -->
+                        <path d="M6.5 7.5 L17.5 7.5 L15.8 4.8 L8.2 4.8 Z" />
+                        <!-- Козырёк -->
+                        <path d="M5.2 7.5 L3.8 9.8 L20.2 9.8 L18.8 7.5" />
+                        <!-- Кокарда (красная, как на фото) -->
+                        <circle cx="12" cy="6.1" r="1.15" fill="#ff3b3b" stroke="#ffffff" stroke-width="0.6" />
                         <!-- Голова -->
-                        <circle cx="12" cy="12.5" r="3.8"/>
-                        <!-- Тело + плечи -->
-                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <circle cx="12" cy="13.1" r="3.75" />
+                        <!-- Глаза -->
+                        <circle cx="9.8" cy="12.6" r="0.45" fill="#ffffff" />
+                        <circle cx="14.2" cy="12.6" r="0.45" fill="#ffffff" />
+                        <!-- Улыбка -->
+                        <path d="M9.5 15.1 C10.1 16.1 13.9 16.1 14.5 15.1" />
+                        <!-- Плечи формы -->
+                        <path d="M7.8 16.8 L6.1 20 L17.9 20 L16.2 16.8" />
+                        <!-- Тело (униформа) -->
+                        <path d="M8.5 16.8 L7.5 20 L16.5 20 L15.5 16.8" />
                     </svg>
                 </span>
                 Контроль
             </div>
         </div>
-
         <div id="content-ticket" class="content">
             <!-- Перевозчик — иконка 1 в 1 (человек в фуражке) как на фотке -->
             <div class="section">
                 <div class="icon carrier-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Фуражка -->
-                        <path d="M7 7 L17 7 L15 4.5 L9 4.5 Z"/>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Фуражка (точная форма с козырьком и кокардой) -->
+                        <path d="M6.5 7.5 L17.5 7.5 L15.8 4.8 L8.2 4.8 Z" />
+                        <!-- Козырёк -->
+                        <path d="M5.2 7.5 L3.8 9.8 L20.2 9.8 L18.8 7.5" />
+                        <!-- Кокарда (красная, как на фото) -->
+                        <circle cx="12" cy="6.1" r="1.15" fill="#ff3b3b" stroke="#ffffff" stroke-width="0.6" />
                         <!-- Голова -->
-                        <circle cx="12" cy="12.5" r="3.8"/>
-                        <!-- Тело + плечи -->
-                        <path d="M6.5 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                        <circle cx="12" cy="13.1" r="3.75" />
+                        <!-- Глаза -->
+                        <circle cx="9.8" cy="12.6" r="0.45" fill="#ffffff" />
+                        <circle cx="14.2" cy="12.6" r="0.45" fill="#ffffff" />
+                        <!-- Улыбка -->
+                        <path d="M9.5 15.1 C10.1 16.1 13.9 16.1 14.5 15.1" />
+                        <!-- Плечи формы -->
+                        <path d="M7.8 16.8 L6.1 20 L17.9 20 L16.2 16.8" />
+                        <!-- Тело (униформа) -->
+                        <path d="M8.5 16.8 L7.5 20 L16.5 20 L15.5 16.8" />
                     </svg>
                 </div>
                 <div style="flex:1">
@@ -200,7 +218,6 @@
                     <div class="value" id="carrier"></div>
                 </div>
             </div>
-
             <!-- Автобус — новая иконка 1 в 1 как на твоей фотке -->
             <div class="section">
                 <div class="icon bus-icon">
@@ -218,7 +235,6 @@
                     <div id="plate" class="plate"></div>
                 </div>
             </div>
-
             <!-- Стоимость — ₽ 1 в 1 -->
             <div class="section">
                 <div class="icon ruble-icon">
@@ -231,7 +247,6 @@
                     <div id="cost" class="value"></div>
                 </div>
             </div>
-
             <!-- Дата покупки -->
             <div class="section">
                 <div class="icon calendar-icon">
@@ -247,7 +262,6 @@
                     <div id="purchase_date" class="value"></div>
                 </div>
             </div>
-
             <!-- Время покупки -->
             <div class="section">
                 <div class="icon clock-icon">
@@ -263,7 +277,6 @@
                 </div>
             </div>
         </div>
-
         <div id="content-control" class="content hidden">
             <div class="qr-screen">
                 <p>Предъявите QR-код контролёру</p>
@@ -271,33 +284,31 @@
                 <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
             </div>
         </div>
-       
+      
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
-       
+      
         function fillData() {
             document.getElementById('carrier').textContent = urlParams.get('carrier') || 'ООО "СТК"';
-           
+          
             let addr = (urlParams.get('address') || 'ул Цимлянская - ст Красноярск-Северный').replace('60, ', '');
             document.getElementById('address').textContent = addr;
             document.getElementById('plate').textContent = urlParams.get('plate') || 'в583ск124';
-           
+          
             const count = urlParams.get('count') || '3';
             const price = urlParams.get('total_price') || '144.00';
             document.getElementById('cost').innerHTML = `${count} шт., Полный, <strong>${price} ₽</strong>`;
-           
+          
             document.getElementById('purchase_date').textContent = urlParams.get('purchase_date') || '10 января 2026 г.';
             document.getElementById('purchase_time').textContent = urlParams.get('purchase_time') || '20:35';
-           
+          
             const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
             document.getElementById('control-number').textContent = ticketId;
             document.getElementById('qr-ticket-id').textContent = ticketId;
         }
-
         function startCountdown() {
             let seconds = 15;
             const el = document.getElementById('seconds');
@@ -307,7 +318,6 @@
                 if (seconds <= 0) clearInterval(timer);
             }, 1000);
         }
-
         function generateQR() {
             const ticketId = urlParams.get('ticket_id') || '1 670 582 072';
             const plate = urlParams.get('plate') || 'в583ск124';
@@ -315,20 +325,19 @@
             document.getElementById('qr-code').src =
                 `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
         }
-
         function initTabs() {
             const t1 = document.getElementById('tab-ticket');
             const t2 = document.getElementById('tab-control');
             const c1 = document.getElementById('content-ticket');
             const c2 = document.getElementById('content-control');
-           
+          
             t1.addEventListener('click', () => {
                 t1.classList.add('active');
                 t2.classList.remove('active');
                 c1.classList.remove('hidden');
                 c2.classList.add('hidden');
             });
-           
+          
             t2.addEventListener('click', () => {
                 t2.classList.add('active');
                 t1.classList.remove('active');
@@ -337,7 +346,6 @@
                 generateQR();
             });
         }
-
         function init() {
             TelegramWebApp.ready();
             TelegramWebApp.expand();
