@@ -59,7 +59,7 @@
             content: '';
             position: absolute;
             bottom: 0;
-            left: 11%;     /* СДЕЛАЛ КРАСНУЮ ЛИНИЮ ДЛИННЕЕ (как на оригинальном 2-м фото) */
+            left: 11%;
             right: 11%;
             height: 3px;
             background: #ff3b3b;
@@ -78,8 +78,8 @@
         .section {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 15px 0;
+            gap: 14px;
+            padding: 11px 0;           /* сильно уменьшил вертикальные отступы */
             border-bottom: 1px solid #222222;
         }
         .section:last-child { border-bottom: none; }
@@ -91,8 +91,7 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* ВЕРХНИЕ иконки во вкладках — МЕНЬШЕ (как просил) */
+        /* Верхние иконки (вкладки) */
         .tab .icon {
             width: 26px;
             height: 26px;
@@ -107,11 +106,10 @@
         .tab.active svg {
             stroke: #ff3b3b;
         }
-
-        /* НИЖНИЕ иконки (перевозчик, автобус, рубль, календарь, часы) — БОЛЬШЕ */
+        /* Нижние иконки — уменьшил размер */
         .section .icon {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
         }
 
         /* ===================== PNG ИКОНКИ ===================== */
@@ -128,7 +126,6 @@
         .clock-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/clock-icon.png'); }
         .control-icon { background-image: url('https://raw.githubusercontent.com/sayalszzz/bus-ticket/main/control-icon.png'); }
 
-        /* Все твои PNG-иконки яркие */
         .carrier-icon,
         .bus-icon,
         .ruble-icon,
@@ -138,27 +135,27 @@
             filter: brightness(1.45) contrast(1.25);
         }
 
-        /* Адрес — серый (как было в оригинале) */
         #address {
             color: #aaaaaa;
         }
 
         .label {
-            font-size: 18px;
+            font-size: 15px;           /* уменьшил */
             font-weight: 400;
             color: #aaaaaa;
-            margin-bottom: 6px;
+            margin-bottom: 3px;
         }
         .value, .plate {
-            font-size: 21px;
+            font-size: 17.5px;         /* уменьшил */
             font-weight: 500;
             color: #d4d4d4;
         }
         .plate {
-            font-size: 21px;
+            font-size: 18px;
             font-weight: 600;
-            margin-top: 3px;
+            margin-top: 2px;
         }
+
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
         #qr-code {
             width: 260px;
@@ -197,7 +194,7 @@
 <body>
     <div id="main-container" class="container">
         <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
-    
+   
         <div class="tabs">
             <div class="tab active" id="tab-ticket">
                 <span class="icon ticket-icon">
@@ -261,11 +258,12 @@
                 <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
             </div>
         </div>
-    
+   
         <button onclick="Telegram.WebApp.close()" class="red-btn">ЗАКРЫТЬ</button>
     </div>
 
     <script>
+        // ... (скрипт без изменений)
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
 
@@ -327,7 +325,7 @@
             const t2 = document.getElementById('tab-control');
             const c1 = document.getElementById('content-ticket');
             const c2 = document.getElementById('content-control');
-          
+         
             t1.addEventListener('click', () => {
                 t1.classList.add('active');
                 t2.classList.remove('active');
@@ -348,14 +346,13 @@
             TelegramWebApp.expand();
             TelegramWebApp.setHeaderColor('#000000');
             TelegramWebApp.setBackgroundColor('#000000');
-          
+         
             if (!checkExpiration()) {
                 fillData();
                 startCountdown();
                 initTabs();
             }
         }
-
         window.onload = init;
     </script>
 </body>
