@@ -78,20 +78,18 @@
         .section {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 11px 0;           /* сильно уменьшил вертикальные отступы */
+            gap: 15px;
+            padding: 12px 0;
             border-bottom: 1px solid #222222;
         }
         .section:last-child { border-bottom: none; }
 
-        /* ===================== РАЗНЫЕ РАЗМЕРЫ ИКОНОК ===================== */
         .icon {
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        /* Верхние иконки (вкладки) */
         .tab .icon {
             width: 26px;
             height: 26px;
@@ -106,13 +104,11 @@
         .tab.active svg {
             stroke: #ff3b3b;
         }
-        /* Нижние иконки — уменьшил размер */
         .section .icon {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
         }
 
-        /* ===================== PNG ИКОНКИ ===================== */
         .carrier-icon, .bus-icon, .ruble-icon,
         .calendar-icon, .clock-icon, .control-icon {
             background-size: contain;
@@ -135,25 +131,23 @@
             filter: brightness(1.45) contrast(1.25);
         }
 
-        #address {
-            color: #aaaaaa;
-        }
+        #address { color: #aaaaaa; }
 
         .label {
-            font-size: 15px;           /* уменьшил */
+            font-size: 18px;
             font-weight: 400;
             color: #aaaaaa;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
         .value, .plate {
-            font-size: 17.5px;         /* уменьшил */
+            font-size: 21px;
             font-weight: 500;
             color: #d4d4d4;
         }
         .plate {
-            font-size: 18px;
+            font-size: 21px;
             font-weight: 600;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
         .qr-screen { text-align: center; padding: 40px 20px 20px; }
@@ -177,21 +171,10 @@
             cursor: pointer;
         }
         .hidden { display: none !important; }
-        .expired-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-        .expired-icon { font-size: 64px; margin-bottom: 20px; }
-        .expired-title { font-size: 22px; font-weight: 700; color: #ff3b3b; margin-bottom: 10px; }
-        .expired-text { color: #aaaaaa; font-size: 16px; }
     </style>
 </head>
 <body>
+    <!-- ... (остальная часть тела HTML и скрипт без изменений) -->
     <div id="main-container" class="container">
         <div class="countdown">Действует: <span id="seconds">15</span> сек.</div>
    
@@ -263,7 +246,7 @@
     </div>
 
     <script>
-        // ... (скрипт без изменений)
+        // Скрипт без изменений (тот же, что был у тебя)
         const urlParams = new URLSearchParams(window.location.search);
         const TelegramWebApp = window.Telegram.WebApp;
 
