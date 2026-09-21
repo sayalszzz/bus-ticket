@@ -346,7 +346,7 @@
                 const rect = qr.getBoundingClientRect();
                 const radius = avatar.offsetWidth / 2;
                 const x = Math.max(rect.left + radius, Math.min(event.clientX, rect.right - radius));
-                const y = Math.max(rect.top + radius, Math.min(event.clientY, rect.bottom - radius));
+                const y = Math.max(rect.top + radius, Math.min(event.clientY + 55, rect.bottom - radius));
                 avatar.style.left = `${x}px`;
                 avatar.style.top = `${y}px`;
             }
