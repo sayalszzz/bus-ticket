@@ -170,6 +170,26 @@
             background: #fff;
             border-radius: 12px;
             padding: 12px;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+        #qr-touch-avatar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            visibility: hidden;
+            z-index: 1000;
+        }
+        #qr-touch-avatar.visible {
+            visibility: visible;
         }
         .red-btn {
             background: #e11b1c;
@@ -250,7 +270,8 @@
         <div id="content-control" class="content hidden">
             <div class="qr-screen">
                 <p>Предъявите QR-код контролёру</p>
-                <img id="qr-code" src="" alt="QR">
+                <img id="qr-code" src="" alt="QR" draggable="false">
+                <img id="qr-touch-avatar" src="bot-avatar.png" alt="">
                 <p style="margin-top:30px; color:#666;">Билет № <span id="qr-ticket-id"></span></p>
             </div>
         </div>
@@ -316,6 +337,50 @@
                 `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(data)}`;
         }
 
+        function initQrTouchAvatar() {
+            const qr = document.getElementById('qr-code');
+            const avatar = document.getElementById('qr-touch-avatar');
+            let activePointerId = null;
+
+            function moveAvatar(event) {
+                const rect = qr.getBoundingClientRect();
+                const radius = avatar.offsetWidth / 2;
+                const x = Math.max(rect.left + radius, Math.min(event.clientX, rect.right - radius));
+                const y = Math.max(rect.top + radius, Math.min(event.clientY, rect.bottom - radius));
+                avatar.style.left = `${x}px`;
+                avatar.style.top = `${y}px`;
+            }
+
+            function hideAvatar(event) {
+                if (event && activePointerId !== null && event.pointerId !== activePointerId) return;
+                avatar.classList.remove('visible');
+                activePointerId = null;
+            }
+
+            qr.addEventListener('pointerdown', event => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                event.preventDefault();
+                activePointerId = event.pointerId;
+                qr.setPointerCapture(event.pointerId);
+                moveAvatar(event);
+                avatar.classList.add('visible');
+            }, { passive: false });
+
+            qr.addEventListener('pointermove', event => {
+                if (event.pointerId !== activePointerId) return;
+                event.preventDefault();
+                moveAvatar(event);
+            }, { passive: false });
+
+            qr.addEventListener('pointerup', hideAvatar);
+            qr.addEventListener('pointercancel', hideAvatar);
+            qr.addEventListener('lostpointercapture', hideAvatar);
+            window.addEventListener('blur', () => hideAvatar());
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) hideAvatar();
+            });
+        }
+
         function initTabs() {
             const t1 = document.getElementById('tab-ticket');
             const t2 = document.getElementById('tab-control');
@@ -347,6 +412,7 @@
                 fillData();
                 startCountdown();
                 initTabs();
+                initQrTouchAvatar();
             }
         }
         window.onload = init;
